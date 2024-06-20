@@ -1,14 +1,10 @@
 jobs:
   - name: Build Job
-    runner: ubuntu-latest
-    environment: build
     steps:
       - name: Hello World Step
         run: echo Hello World
 
   - name: Test Job
-    runner: ubuntu-latest
-    environment: test
     steps:
       - name: hello again
         run: echo hello again

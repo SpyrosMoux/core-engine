@@ -3,8 +3,6 @@ package models
 // Job represents an individual job in the CI/CD pipeline
 type Job struct {
 	Name        string   `yaml:"name"`
-	Runner      string   `yaml:"runner"`
-	Environment string   `yaml:"environment"`
 	Needs       []string `yaml:"needs,omitempty"`
 	Steps       []Step   `yaml:"steps"`
 }
