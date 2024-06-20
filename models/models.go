@@ -15,5 +15,6 @@ type Step struct {
 
 // UnifiedCI represents the top-level structure containing jobs
 type UnifiedCI struct {
+	Variables map[string]string `yaml:"variables,omitempty"`
 	Jobs []Job `yaml:"jobs"`
 }

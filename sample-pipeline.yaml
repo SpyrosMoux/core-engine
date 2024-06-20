@@ -1,8 +1,11 @@
+variables:
+  NAME: "Spyros"
+
 jobs:
   - name: Build Job
     steps:
       - name: Hello World Step
-        run: echo Hello World
+        run: echo Hello ${NAME}
 
   - name: Test Job
     steps:

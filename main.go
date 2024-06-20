@@ -19,7 +19,7 @@ func main() {
 	}
 
 	for _, job := range ci.Jobs {
-		err := helpers.ExecuteJob(job)
+		err := helpers.ExecuteJob(job, ci.Variables)
 		if err != nil {
 			log.Fatalf("Error executing job: %v", err)
 		}
