@@ -1,8 +1,8 @@
 package main
 
 import (
-	"core-engine/helpers"
-	"core-engine/models"
+	"spyrosmoux/core-engine/helpers"
+	"spyrosmoux/core-engine/models"
 	"log"
 	"path/filepath"
 )

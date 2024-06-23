@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"core-engine/models"
+	"spyrosmoux/core-engine/models"
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"os"

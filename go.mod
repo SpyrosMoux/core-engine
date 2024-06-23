@@ -1,4 +1,4 @@
-module core-engine
+module spyrosmoux/core-engine
 
 go 1.21
 
