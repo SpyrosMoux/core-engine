@@ -1,11 +1,11 @@
 package helpers
 
 import (
-	"spyrosmoux/core-engine/models"
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"os"
 	"os/exec"
+	"spyrosmoux/core-engine/internal/models"
 	"strings"
 )
 
@@ -56,4 +56,8 @@ func SubstituteVariables(command string, variables map[string]string) string {
 		command = strings.ReplaceAll(command, placeholder, value)
 	}
 	return command
+}
+
+func ReadYAMLFromString(yamlData string, out interface{}) error {
+	return yaml.Unmarshal([]byte(yamlData), out)
 }
