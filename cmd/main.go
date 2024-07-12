@@ -1,22 +1,27 @@
 package main
 
 import (
-	"spyrosmoux/core-engine/internal/common"
 	"spyrosmoux/core-engine/internal/logger"
-	"spyrosmoux/core-engine/internal/routers"
+	"spyrosmoux/core-engine/internal/pipelines"
+	"spyrosmoux/core-engine/internal/queue"
 )
 
 func main() {
 	// Setup custom Logger
 	logger.Init()
 
-	// Setup routes
-	router := routers.SetupRouter()
+	// Init RabbitMQ
+	msgs := queue.InitRabbitMQ()
 
-	logger.Log(logger.InfoLevel, "Starting server on port "+common.ApiPort)
+	var forever chan struct{}
 
-	err := router.Run(":" + common.ApiPort)
-	if err != nil {
-		logger.Log(logger.FatalLevel, err.Error())
-	}
+	go func() {
+		for d := range msgs {
+			logger.Log(logger.InfoLevel, "Received a message with correlation id: "+d.CorrelationId)
+			pipelines.RunJob(string(d.Body))
+		}
+	}()
+
+	logger.Log(logger.InfoLevel, " [*] Waiting for messages. To exit press CTRL+C")
+	<-forever
 }
