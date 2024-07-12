@@ -2,18 +2,19 @@ package queue
 
 import (
 	amqp "github.com/rabbitmq/amqp091-go"
-	"log"
+	"spyrosmoux/core-engine/internal/common"
+	"spyrosmoux/core-engine/internal/logger"
 )
 
 func InitRabbitMQ() <-chan amqp.Delivery {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	conn, err := amqp.Dial("amqp://" + common.RabbitMQUser + ":" + common.RabbitMQPassword + "@" + common.RabbitMQHost + ":" + common.RabbitMQPort + "/")
 	if err != nil {
-		log.Fatal("Failed to connect to RabbitMQ", err)
+		logger.Log(logger.FatalLevel, "Failed to connect to RabbitMQ "+err.Error())
 	}
 
 	ch, err := conn.Channel()
 	if err != nil {
-		log.Fatalf("Failed to open a channel: %s", err)
+		logger.Log(logger.FatalLevel, "Failed to open a channel: "+err.Error())
 	}
 
 	q, err := ch.QueueDeclare(
@@ -25,7 +26,7 @@ func InitRabbitMQ() <-chan amqp.Delivery {
 		nil,
 	)
 	if err != nil {
-		log.Fatalf("Failed to declare a queue: %s", err)
+		logger.Log(logger.FatalLevel, "Failed to declare a queue: "+err.Error())
 	}
 
 	msgs, err := ch.Consume(
@@ -38,7 +39,7 @@ func InitRabbitMQ() <-chan amqp.Delivery {
 		nil,
 	)
 	if err != nil {
-		log.Fatalf("Failed to register a consumer: %s", err)
+		logger.Log(logger.FatalLevel, "Failed to register a consumer: "+err.Error())
 	}
 
 	return msgs
