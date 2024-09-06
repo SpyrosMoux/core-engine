@@ -2,8 +2,8 @@ package queue
 
 import (
 	amqp "github.com/rabbitmq/amqp091-go"
-	"spyrosmoux/core-engine/internal/common"
-	"spyrosmoux/core-engine/internal/logger"
+	"github.com/spyrosmoux/core-engine/internal/common"
+	"github.com/spyrosmoux/core-engine/internal/logger"
 )
 
 func InitRabbitMQ() <-chan amqp.Delivery {

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"spyrosmoux/core-engine/internal/logger"
-	"spyrosmoux/core-engine/internal/pipelines"
-	"spyrosmoux/core-engine/internal/queue"
+	"github.com/spyrosmoux/core-engine/internal/logger"
+	"github.com/spyrosmoux/core-engine/internal/pipelines"
+	"github.com/spyrosmoux/core-engine/internal/queue"
 )
 
 func main() {

@@ -1,5 +1,7 @@
 package models
 
+import "gopkg.in/yaml.v2"
+
 // Job represents an individual job in the CI/CD pipeline
 type Job struct {
 	Name  string   `yaml:"name"`
@@ -17,4 +19,8 @@ type Step struct {
 type UnifiedCI struct {
 	Variables map[string]string `yaml:"variables,omitempty"`
 	Jobs      []Job             `yaml:"jobs"`
+}
+
+func ReadYAMLFromString(yamlData string, out interface{}) error {
+	return yaml.Unmarshal([]byte(yamlData), out)
 }

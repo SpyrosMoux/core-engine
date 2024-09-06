@@ -1,6 +1,6 @@
 package common
 
-import "spyrosmoux/core-engine/internal/helpers"
+import "github.com/spyrosmoux/core-engine/internal/helpers"
 
 var (
 	RabbitMQHost     = helpers.LoadEnvVariable("RABBITMQ_HOST")
