@@ -21,6 +21,6 @@ type UnifiedCI struct {
 	Jobs      []Job             `yaml:"jobs"`
 }
 
-func ReadYAMLFromString(yamlData string, out interface{}) error {
+func ReadYAMLFromString(yamlData string, out UnifiedCI) error {
 	return yaml.Unmarshal([]byte(yamlData), out)
 }
