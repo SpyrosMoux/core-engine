@@ -18,7 +18,7 @@ func main() {
 	go func() {
 		for d := range msgs {
 			logger.Log(logger.InfoLevel, "Received a message with correlation id: "+d.CorrelationId)
-			pipelines.RunJob(string(d.Body))
+			pipelines.RunPipeline(string(d.Body))
 		}
 	}()
 
