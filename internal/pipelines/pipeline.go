@@ -74,10 +74,11 @@ func CleanupRun() {
 }
 
 // RunJob prepares, executes and cleans-up a run
-func RunPipeline(job string) {
+func RunPipeline(job string) error {
 	ci, err := models.ValidateYAMLStructure([]byte(job))
 	if err != nil {
-		logger.Log(logger.FatalLevel, "Error validating yaml structure with error: "+err.Error())
+		logger.Log(logger.ErrorLevel, "Error validating yaml structure with error: "+err.Error())
+		return err
 	}
 
 	PrepareRun()
@@ -87,9 +88,12 @@ func RunPipeline(job string) {
 		err := ExecuteJob(job, ci.Variables)
 		if err != nil {
 			CleanupRun()
-			logger.Log(logger.FatalLevel, "Error executing job: "+err.Error())
+			logger.Log(logger.ErrorLevel, "Error executing job: "+err.Error())
+			return err
 		}
 	}
 
 	CleanupRun()
+
+	return nil
 }
