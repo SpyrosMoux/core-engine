@@ -19,7 +19,7 @@ func InitRabbitMQ() <-chan amqp.Delivery {
 
 	q, err := ch.QueueDeclare(
 		"jobs",
-		false,
+		true,
 		false,
 		false,
 		false,
@@ -29,10 +29,16 @@ func InitRabbitMQ() <-chan amqp.Delivery {
 		logger.Log(logger.FatalLevel, "Failed to declare a queue: "+err.Error())
 	}
 
+	// Set QoS (Quality of Service) to prefetch 1 message at a time
+	err = ch.Qos(1, 0, false)
+	if err != nil {
+		logger.Log(logger.ErrorLevel, "Failed to set QoS: "+err.Error())
+	}
+
 	msgs, err := ch.Consume(
 		q.Name,
 		"",
-		true,
+		false,
 		false,
 		false,
 		false,

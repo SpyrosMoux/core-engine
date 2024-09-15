@@ -18,7 +18,16 @@ func main() {
 	go func() {
 		for d := range msgs {
 			logger.Log(logger.InfoLevel, "Received a message with correlation id: "+d.CorrelationId)
-			pipelines.RunPipeline(string(d.Body))
+			err := pipelines.RunPipeline(string(d.Body))
+			if err != nil {
+				logger.Log(logger.ErrorLevel, "Failed to run pipeline with error: "+err.Error())
+			}
+
+			// Acknowledge the message after successful processing
+			err = d.Ack(false)
+			if err != nil {
+				logger.Log(logger.ErrorLevel, "Failed to acknowledge message: "+err.Error())
+			}
 		}
 	}()
 
