@@ -7,4 +7,5 @@ var (
 	RabbitMQUser     = helpers.LoadEnvVariable("RABBITMQ_USER")
 	RabbitMQPassword = helpers.LoadEnvVariable("RABBITMQ_PASSWORD")
 	RabbitMQPort     = helpers.LoadEnvVariable("RABBITMQ_PORT")
+	ApiBaseUrl       = helpers.LoadEnvVariable("API_BASE_URL")
 )
