@@ -29,8 +29,10 @@ func main() {
 				logger.Log(logger.ErrorLevel, "Failed to update pipeline with error: "+err.Error())
 			}
 
+			runResult := true
 			err = pipelines.RunPipeline(string(d.Body))
 			if err != nil {
+				runResult = false
 				logger.Log(logger.ErrorLevel, "Failed to run pipeline with error: "+err.Error())
 			}
 
@@ -40,7 +42,14 @@ func main() {
 				logger.Log(logger.ErrorLevel, "Failed to acknowledge message: "+err.Error())
 			}
 
-			_, err = client.UpdatePipelineRunStatus(d.CorrelationId, pipelineruns.COMPLETED)
+			if runResult {
+				_, err = client.UpdatePipelineRunStatus(d.CorrelationId, pipelineruns.COMPLETED)
+				if err != nil {
+					logger.Log(logger.ErrorLevel, "Failed to update pipeline with error: "+err.Error())
+				}
+			}
+
+			_, err = client.UpdatePipelineRunStatus(d.CorrelationId, pipelineruns.FAILED)
 			if err != nil {
 				logger.Log(logger.ErrorLevel, "Failed to update pipeline with error: "+err.Error())
 			}
