@@ -1,8 +1,7 @@
 package main
 
 import (
-	"github.com/spyrosmoux/api/pkg/business/pipelineruns"
-	"github.com/spyrosmoux/api/pkg/sdk"
+	"github.com/spyrosmoux/api/pkg/pipelineruns"
 	"github.com/spyrosmoux/core-engine/internal/common"
 	"github.com/spyrosmoux/core-engine/internal/logger"
 	"github.com/spyrosmoux/core-engine/internal/pipelines"
@@ -18,13 +17,13 @@ func main() {
 
 	var forever chan struct{}
 
-	client := sdk.NewClient(common.ApiBaseUrl)
+	client := pipelineruns.NewClient(common.ApiBaseUrl)
 
 	go func() {
 		for d := range msgs {
 			logger.Log(logger.InfoLevel, "Received a message with correlation id: "+d.CorrelationId)
 
-			_, err := client.UpdatePipelineRunStatus(d.CorrelationId, pipelineruns.RUNNING)
+			_, err := client.UpdatePipelineRunStatus(d.CorrelationId, "Running")
 			if err != nil {
 				logger.Log(logger.ErrorLevel, "Failed to update pipeline with error: "+err.Error())
 			}
@@ -43,13 +42,13 @@ func main() {
 			}
 
 			if runResult {
-				_, err = client.UpdatePipelineRunStatus(d.CorrelationId, pipelineruns.COMPLETED)
+				_, err = client.UpdatePipelineRunStatus(d.CorrelationId, "Completed")
 				if err != nil {
 					logger.Log(logger.ErrorLevel, "Failed to update pipeline with error: "+err.Error())
 				}
 			}
 
-			_, err = client.UpdatePipelineRunStatus(d.CorrelationId, pipelineruns.FAILED)
+			_, err = client.UpdatePipelineRunStatus(d.CorrelationId, "Failed")
 			if err != nil {
 				logger.Log(logger.ErrorLevel, "Failed to update pipeline with error: "+err.Error())
 			}

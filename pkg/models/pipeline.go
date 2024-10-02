@@ -20,10 +20,16 @@ type Step struct {
 	Run  string `yaml:"run"`
 }
 
+type Triggers struct {
+	Branch []string `yaml:"branch,omitempty"`
+	PR     []string `yaml:"pr,omitempty"`
+}
+
 // UnifiedCI represents the top-level structure containing jobs
 type UnifiedCI struct {
 	Variables map[string]string `yaml:"variables,omitempty"`
 	Jobs      []Job             `yaml:"jobs"`
+	Triggers  Triggers          `yaml:"triggers,omitempty"`
 }
 
 // ValidateYAMLStructure validates the structure of a given YAML content.
