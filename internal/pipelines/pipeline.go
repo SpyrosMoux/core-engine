@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"spyrosmoux/core-engine/internal/helpers"
-	"spyrosmoux/core-engine/internal/logger"
-	"spyrosmoux/core-engine/internal/models"
 	"strings"
+
+	"github.com/spyrosmoux/core-engine/internal/logger"
+
+	"github.com/spyrosmoux/core-engine/pkg/models"
 )
 
 // ExecuteStep executes a single step
@@ -73,11 +74,11 @@ func CleanupRun() {
 }
 
 // RunJob prepares, executes and cleans-up a run
-func RunJob(job string) {
-	var ci models.UnifiedCI
-	err := helpers.ReadYAMLFromString(job, &ci)
+func RunPipeline(job string) error {
+	ci, err := models.ValidateYAMLStructure([]byte(job))
 	if err != nil {
-		logger.Log(logger.FatalLevel, "Error reading job: "+job+" with error: "+err.Error())
+		logger.Log(logger.ErrorLevel, "Error validating yaml structure with error: "+err.Error())
+		return err
 	}
 
 	PrepareRun()
@@ -87,9 +88,12 @@ func RunJob(job string) {
 		err := ExecuteJob(job, ci.Variables)
 		if err != nil {
 			CleanupRun()
-			logger.Log(logger.FatalLevel, "Error executing job: "+err.Error())
+			logger.Log(logger.ErrorLevel, "Error executing job: "+err.Error())
+			return err
 		}
 	}
 
 	CleanupRun()
+
+	return nil
 }

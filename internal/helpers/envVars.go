@@ -1,9 +1,10 @@
 package helpers
 
 import (
-	"github.com/joho/godotenv"
 	"os"
-	"spyrosmoux/core-engine/internal/logger"
+
+	"github.com/joho/godotenv"
+	"github.com/spyrosmoux/core-engine/internal/logger"
 )
 
 func LoadEnvVariable(variable string) string {
