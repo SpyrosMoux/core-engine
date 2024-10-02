@@ -16,6 +16,8 @@ FROM alpine:3.19 AS build-release-stage
 # Install Git
 RUN apk add --no-cache git
 
+RUN apk add docker
+
 WORKDIR /
 
 COPY --from=build-stage /core-engine /core-engine
