@@ -73,7 +73,7 @@ func CleanupRun() {
 	logger.Log(logger.InfoLevel, "Temporary directory '_work' removed successfully")
 }
 
-// RunJob prepares, executes and cleans-up a run
+// RunPipeline prepares, executes and cleans-up a run
 func RunPipeline(job string) error {
 	ci, err := models.ValidateYAMLStructure([]byte(job))
 	if err != nil {
